@@ -1,4 +1,5 @@
 > Welcome to the Address Book Server
+
 > Login credentials are:
 
 ```
@@ -37,6 +38,11 @@ JWT Token
 
 > https://address-book-api-production.up.railway.app/user/:id - Patch - Update user by id
 
-N.B : I have used MongoDB Atlas for database with the help of mongoose.
+### N.B :
+
+I have used MongoDB Atlas for database with the help of mongoose. Without Login & Signp route
+you can't access other routes because I have used `JWT token` for authentication.
+To get JWT token you have to login or signup first or you can use the `token` which I have provided above.
+
 Language : Typescript
 Framework : Express JS
