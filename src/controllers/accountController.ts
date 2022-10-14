@@ -193,9 +193,38 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+// update user
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const id: ids = req.params.id;
+    const user = await account.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+        status: 404,
+      });
+    }
+    res.status(200).send({
+      message: "User updated successfully",
+      status: 200,
+      data: user,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: "Error in Updating",
+      error: err,
+    });
+  }
+};
+
+
 export const accountRouter = {
   signup,
   login,
   getAllUsers,
   addBulkUsers,
+  deleteUser,
+  updateUser,
 };
