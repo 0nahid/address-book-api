@@ -13,8 +13,10 @@ const signup = async (req: Request, res: Response) => {
     });
     res.status(201).json({ token });
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Error signing up. Please try again later.");
+    res.status(500).send({
+        message: "Error in Saving",
+        error: err
+    });
   }
 };
 
