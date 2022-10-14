@@ -219,6 +219,30 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+// get user by id
+const getUserById = async (req: Request, res: Response) => {
+  try {
+    const id: ids = req.params.id;
+    const user = await account.findById(id);
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+        status: 404,
+      });
+    }
+    res.status(200).send({
+      message: "User fetched successfully",
+      status: 200,
+      data: user,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: "Error in Fetching",
+      error: err,
+    });
+  }
+};
+
 
 export const accountRouter = {
   signup,
@@ -227,4 +251,5 @@ export const accountRouter = {
   addBulkUsers,
   deleteUser,
   updateUser,
+  getUserById,
 };
