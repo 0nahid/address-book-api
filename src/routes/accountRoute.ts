@@ -8,6 +8,9 @@ router.post("/login", accountRouter.login);
 router.get("/users", accountRouter.getAllUsers);
 router.post("/bulk", accountRouter.addBulkUsers);
 
+router.delete("/delete/:id", accountRouter.deleteUser);
+
+
 
 
 export default router;

@@ -92,7 +92,7 @@ const getAllUsers = async (req: Request, res: Response) => {
   // Fetch the list of contacts with pagination.
   let filters = { ...req.query };
   console.log(filters);
-  
+
   // exclude the page and limit from the query
   const excludedFields = ["page", "limit", "sort"];
   excludedFields.forEach((field) => delete filters[field]);
@@ -116,14 +116,16 @@ const getAllUsers = async (req: Request, res: Response) => {
   queries.limit = limitNumber;
   console.log(queries);
   try {
-    const users = await account.find(filters).skip(queries.skip).limit(queries.limit);
+    const users = await account
+      .find(filters)
+      .skip(queries.skip)
+      .limit(queries.limit);
     res.status(200).send({
       message: "Users fetched successfully",
       status: 200,
       data: users,
     });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).send({
       message: "Error in Fetching users",
       error: err,
@@ -163,6 +165,29 @@ const addBulkUsers = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).send({
       message: "Error in Saving",
+      error: err,
+    });
+  }
+};
+
+// delete user
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id: ids = req.params.id;
+    const user = await account.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+        status: 404,
+      });
+    }
+    res.status(200).send({
+      message: "User deleted successfully",
+      status: 200,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: "Error in Deleting",
       error: err,
     });
   }
