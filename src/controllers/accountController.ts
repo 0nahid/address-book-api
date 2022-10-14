@@ -20,7 +20,6 @@ const signup = async (req: Request, res: Response) => {
     }
     // create new user
     const hashPassword = await bcrypt.hash(password, 10);
-    console.log(hashPassword);
 
     const newUser = new account({
       email,
@@ -96,8 +95,39 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// add bulk users
+const addBulkUsers = async (req: Request, res: Response) => {
+  // log.info(req.body);
+  let payload = req.body;
+  payload.forEach(async (element: any) => {
+    const { email, password, firstName, lastName, phone } = element;
+    const user = await account.findOne({ email: element.email });
+    if (user) {
+      return res.status(400).send({
+        message: "User already exists",
+        status: 400,
+      });
+    }
+    // create new user
+    const hashPassword = await bcrypt.hash(password, 10);
+    const newUser = new account({
+      email,
+      password: hashPassword,
+      firstName,
+      lastName,
+      phone,
+    });
+    await newUser.save();
+  });
+  res.status(200).send({
+    message: "Users created successfully",
+    status: 200,
+  });
+};
+
 export const accountRouter = {
   signup,
   login,
   getAllUsers,
+  addBulkUsers,
 };

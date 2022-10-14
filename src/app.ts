@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 /* Here is the User Routes */
-app.use("/api", accountRoute);
+app.use("/", accountRoute);
 
 // 404 response
 app.all("*", (req: Request, res: Response) => {
